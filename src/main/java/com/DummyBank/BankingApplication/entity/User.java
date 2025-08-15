@@ -29,7 +29,7 @@ public class User {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id", nullable = false)
     @ToString.Exclude
     private Role role;

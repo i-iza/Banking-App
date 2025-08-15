@@ -19,16 +19,35 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
-        );
+        try {
+            System.out.println("Attempting login for username: " + loginRequest.getUsername());
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
+            );
 
-        String role = authentication.getAuthorities().iterator().next().getAuthority().replace("ROLE_", "");
-        String token = jwtUtils.generateToken(loginRequest.getUsername(), role);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        return ResponseEntity.ok(new JwtResponse(token));
+            System.out.println("Authentication successful for username: " + loginRequest.getUsername());
+            System.out.println("Authorities: " + authentication.getAuthorities());
+
+            String role = authentication.getAuthorities().iterator().next().getAuthority().replace("ROLE_", "");
+            String token = jwtUtils.generateToken(loginRequest.getUsername(), role);
+
+            System.out.println("Generated JWT token for user: " + loginRequest.getUsername());
+
+            return ResponseEntity.ok(new JwtResponse(token));
+        } catch (BadCredentialsException e) {
+            System.out.println("Authentication failed: Bad credentials for username: " + loginRequest.getUsername());
+            return ResponseEntity.status(401).body("Invalid username or password");
+        } catch (Exception e) {
+            System.out.println("Authentication error for username: " + loginRequest.getUsername());
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("Internal server error");
+        }
     }
 
     @Data

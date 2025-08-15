@@ -5,6 +5,7 @@ import com.DummyBank.BankingApplication.entity.User;
 import com.DummyBank.BankingApplication.repository.RoleRepository;
 import com.DummyBank.BankingApplication.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +16,13 @@ public class AdminService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User createBanker(User banker) {
         Role bankerRole = roleRepository.findByName("BANKER")
                 .orElseThrow(() -> new RuntimeException("Role BANKER not found"));
         banker.setRole(bankerRole);
+        banker.setPassword(passwordEncoder.encode(banker.getPassword()));
         return userRepository.save(banker);
     }
 
