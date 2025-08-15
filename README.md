@@ -26,15 +26,15 @@ com.DummyBank.BankingApplication
 1. Start your MySQL server.
 2. Create the database:
 ```sql
-CREATE DATABASE dummy_bank;
+CREATE DATABASE banking_app;
 ```
 Create a dedicated user:
 
 ```sql
-CREATE USER 'bank_user'@'localhost' IDENTIFIED BY 'password123';
+CREATE USER 'bankuser'@'localhost' IDENTIFIED BY 'bankpass';
 ```
 ```sql
-GRANT ALL PRIVILEGES ON dummy_bank.* TO 'bank_user'@'localhost';
+GRANT ALL PRIVILEGES ON banking_app.* TO 'bankuser'@'localhost';
 FLUSH PRIVILEGES;
 ```
 ```sql
