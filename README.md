@@ -37,6 +37,10 @@ CREATE USER 'bank_user'@'localhost' IDENTIFIED BY 'password123';
 GRANT ALL PRIVILEGES ON dummy_bank.* TO 'bank_user'@'localhost';
 FLUSH PRIVILEGES;
 ```
+```sql
+ALTER USER 'bankuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'bankpass';
+FLUSH PRIVILEGES;
+```  
 ## 4. Configuration 
 Configure src/main/resources/application.properties:
 
