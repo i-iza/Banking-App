@@ -26,36 +26,40 @@ com.DummyBank.BankingApplication
 1. Start your MySQL server.
 2. Create the database:
 ```sql
-CREATE DATABASE dummy_bank;
+CREATE DATABASE banking_app;
 ```
 Create a dedicated user:
 
 ```sql
-CREATE USER 'bank_user'@'localhost' IDENTIFIED BY 'password123';
+CREATE USER 'bankuser'@'localhost' IDENTIFIED BY 'bankpass';
 ```
 ```sql
-GRANT ALL PRIVILEGES ON dummy_bank.* TO 'bank_user'@'localhost';
+GRANT ALL PRIVILEGES ON banking_app.* TO 'bankuser'@'localhost';
 FLUSH PRIVILEGES;
 ```
+```sql
+ALTER USER 'bankuser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'bankpass';
+FLUSH PRIVILEGES;
+```  
 ## 4. Configuration 
 Configure src/main/resources/application.properties:
 
 ### MySQL Connection 
-spring.datasource.url=jdbc:mysql://localhost:3306/banking_app?useSSL=false&serverTimezone=UTC
-spring.datasource.username=bankuser
-spring.datasource.password=bankpass
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/banking_app?useSSL=false&serverTimezone=UTC  
+spring.datasource.username=bankuser  
+spring.datasource.password=bankpass  
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver  
 
 ### Hibernate / JPA 
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.hibernate.ddl-auto=update  
+spring.jpa.show-sql=true  
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect  
 
 ### Run data.sql at startup 
-spring.sql.init.mode=always
+spring.sql.init.mode=always  
 
 ### Server Port 
-server.port=8081
+server.port=8081  
 
 ## 5. Build and Run 
 Open the project in your IDE.
