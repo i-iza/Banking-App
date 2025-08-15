@@ -41,9 +41,10 @@ public class ClientController {
     @PostMapping("/accounts/{accountId}/cards")
     public ResponseEntity<CardDto> requestDebitCard(
             @PathVariable Long accountId,
-            @RequestParam BigDecimal monthlySalary
+            @RequestParam BigDecimal monthlySalary,
+            @RequestParam String cardNumber
     ) {
-        Card card = clientService.requestDebitCard(accountId, monthlySalary);
+        Card card = clientService.requestDebitCard(accountId, monthlySalary, cardNumber);
         return ResponseEntity.ok(CardMapper.toDTO(card));
     }
 

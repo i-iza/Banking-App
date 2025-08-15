@@ -32,7 +32,7 @@ public class ClientService {
         return bankAccountRepository.save(account);
     }
 
-    public Card requestDebitCard(Long accountId, BigDecimal monthlySalary) {
+    public Card requestDebitCard(Long accountId, BigDecimal monthlySalary, String cardNumber) {
         BankAccount account = bankAccountRepository.findById(accountId)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
@@ -44,6 +44,7 @@ public class ClientService {
                 .account(account)
                 .type("DEBIT_CARD")
                 .monthlySalary(monthlySalary)
+                .cardNumber(cardNumber)
                 .status(monthlySalary.compareTo(BigDecimal.valueOf(500)) < 0
                         ? CardStatus.REJECTED
                         : CardStatus.PENDING)
